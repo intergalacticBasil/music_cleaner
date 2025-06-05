@@ -1,24 +1,27 @@
 # Music Cleaner
 
-A tool to automatically organize music albums using **Beets**.
+A simple tool to clean and organize music files using beets, designed to work with label-based music organization.
 
-## Features
+## Installation
 
-- Processes albums with **Beets** to extract metadata
-- Organizes albums into clean folder structure using the following rule:
-  ```
-  $label/$year $albumartists - $album/$track $title
-  ```
-- Sorts albums into record label folders (uses `_unknown` if no label exists)
-- Embeds album artwork automatically
-- Matching and tagging based on MusicBrainz metadata
+### 1. Clone or Download
+Download the project files to your desired location.
 
-## Prerequisites
+### 2. Set Up Virtual Environment
+Create and activate a Python virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-### Beets Configuration
+### 3. Install Dependencies
+Install required packages:
+```bash
+pip install -r requirements.txt
+```
 
-This tool requires a beets configuration file at `~/.config/beets/config.yaml`. If you don't have one, create it with the following content:
-
+### 4. Configure Beets
+Create or edit your beets configuration at `~/.config/beets/config.yaml`:
 ```yaml
 directory: ~/Music
 library: ~/Music/library.db
@@ -63,3 +66,47 @@ match:
   strong_rec_thresh: 0.04
   medium_rec_thresh: 0.25
 ```
+
+### 5. Make Script Executable
+```bash
+chmod +x clean-music.sh
+```
+
+### 6. Create Directories
+```bash
+mkdir -p ~/Music/_unsorted
+mkdir -p ~/Music
+```
+
+## Usage
+
+1. **Add music files** to `~/Music/_unsorted/`
+2. **Run the cleaner**:
+   ```bash
+   ./clean-music.sh
+   ```
+   
+The script will:
+- Import and tag music files using MusicBrainz
+- Organize files by record label structure
+- Add album artwork
+- Move files from `_unsorted` to organized folders
+
+## File Organization
+
+Music will be organized as:
+```
+~/Music/
+├── Label Name/
+│   └── Year Artist - Album/
+│       ├── 01 Track Title.mp3
+│       └── 02 Another Track.mp3
+└── _unknown/
+    └── Year Artist - Album/
+```
+
+## Requirements
+
+- Python 3.6+
+- Internet connection (for MusicBrainz lookups)
+- Music files in common formats (MP3, FLAC, etc.)
